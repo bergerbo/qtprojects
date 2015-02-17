@@ -8,6 +8,8 @@
 #include <QPainter>
 
 class DrawingSpace : public QWidget{
+    Q_OBJECT
+    Q_PROPERTY()
 
 public:
     DrawingSpace();
@@ -17,6 +19,8 @@ protected:
     void mousePressEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
+    QColor m_color;
+
 
 public slots:
     void newLine();
