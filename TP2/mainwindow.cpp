@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QStatusBar* mainStatusBar = statusBar();
     mainDrawingSpace = new DrawingSpace();
 
+    /* Menus*/
     QAction* newFile = new QAction(QIcon(":/images/new.png"),tr("&New File"),this);
     newFile->setShortcut(QKeySequence(tr("Ctrl+N")));
     newFile->setToolTip(tr("New File"));
@@ -44,11 +45,41 @@ MainWindow::MainWindow(QWidget *parent) :
     fileToolBar->addAction(openFile);
     fileToolBar->addAction(saveFile);
 
-    setCentralWidget(mainDrawingSpace);
-
     QObject::connect(openFile,SIGNAL(triggered()),this,SLOT(openFile()));
     QObject::connect(saveFile,SIGNAL(triggered()),this,SLOT(saveFile()));
     QObject::connect(quit,SIGNAL(triggered()),this,SLOT(quitApp()));
+
+    /* DrawingSpace & Colors */
+    QToolBar* colorToolBar = addToolBar(tr("Color"));
+    QMenu* colorMenu = mainMenuBar->addMenu(tr("&Color"));
+    QActionGroup* colorsActions = new QActionGroup(this);
+    colorsActions->setExclusive(true);
+
+    QAction* colorRed = new QAction(tr("Red"),this);
+    colorRed->setToolTip(tr("Red"));
+    colorRed->setStatusTip(tr("Red"));
+
+    QAction* colorGreen = new QAction(tr("Green"),this);
+    colorGreen->setToolTip(tr("Green"));
+    colorGreen->setStatusTip(tr("Green"));
+
+    QAction* colorBlue = new QAction(tr("Blue"),this);
+    colorBlue->setToolTip(tr("Blue"));
+    colorBlue->setStatusTip(tr("Blue"));
+
+    colorsActions->addAction(colorRed);
+    colorsActions->addAction(colorGreen);
+    colorsActions->addAction(colorBlue);
+    colorToolBar->addActions(colorsActions->actions());
+    colorMenu->addActions(colorsActions->actions());
+
+    QObject::connect(colorRed,SIGNAL(triggered()),mainDrawingSpace,SLOT(changeColor(Qt::red)));
+    QObject::connect(colorGreen,SIGNAL(triggered()),mainDrawingSpace,SLOT(changeColor(Qt::green)));
+    QObject::connect(colorBlue,SIGNAL(triggered()),mainDrawingSpace,SLOT(changeColor(Qt::blue)));
+
+    setCentralWidget(mainDrawingSpace);
+
+
 }
 
 void MainWindow::openFile(){

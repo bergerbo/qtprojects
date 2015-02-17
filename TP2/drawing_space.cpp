@@ -5,7 +5,7 @@ DrawingSpace::DrawingSpace() : QWidget()
 {
     setMinimumSize(300,200);
     current = NULL;
-
+    setColor(Qt::green);
 //    QState *waitPress = new QState();
 //    QState *onPress = new QState();
 
@@ -18,6 +18,7 @@ DrawingSpace::DrawingSpace() : QWidget()
 
 void DrawingSpace::paintEvent( QPaintEvent* e ){
     QPainter painter(this);
+    painter.setPen(color());
     foreach(QLine line, lines){
         painter.drawLine(line);
     }
@@ -42,6 +43,10 @@ void DrawingSpace::mouseReleaseEvent(QMouseEvent *e){
     lines.append(*current);
     current = NULL;
     update();
+}
+
+void DrawingSpace::changeColor(const QColor c){
+    setColor(c);
 }
 
 void DrawingSpace::newLine(){

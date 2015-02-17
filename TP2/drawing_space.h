@@ -9,10 +9,13 @@
 
 class DrawingSpace : public QWidget{
     Q_OBJECT
-    Q_PROPERTY()
+    Q_PROPERTY(QColor m_color READ color WRITE setColor)
 
 public:
     DrawingSpace();
+
+    const QColor& color() {return m_color;}
+    void setColor(const QColor c){ m_color = c;}
 
 protected:
     void paintEvent( QPaintEvent* e );
@@ -25,6 +28,7 @@ protected:
 public slots:
     void newLine();
     void adjustLine();
+    void changeColor(const QColor c);
 
 private :
     QPoint pos;
